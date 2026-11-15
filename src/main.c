@@ -1,4 +1,46 @@
 
+/*  
+#define STACKSIZE 512;
+
+void tallenna_asento();
+
+
+int main(){
+
+
+    init_ICM42670 ();
+    init_hat_sdk();
+    init_display();
+    write_text("Hello World!");
+
+
+
+    sleep_ms(5000);
+    //stop_display();
+
+
+}
+
+void tallenna_asento(){
+    ICM42670_start_with_default_values ();
+
+
+    float ax, ay, az;
+    float gx, gy, gz;
+    float t;    
+
+
+    ICM42670_read_sensor_data(
+        &ax, &ay, &az,
+        &gx, &gy, &gz,
+        &t
+    );
+
+
+    
+}*/     
+
+
 #include <stdio.h>
 #include <string.h>
 
@@ -39,6 +81,20 @@ static void sensor_task(void *arg){
     // Tehtävä 2: Alusta valoisuusanturi. Etsi SDK-dokumentaatiosta sopiva funktio.
     // Exercise 2: Init the light sensor. Find in the SDK documentation the adequate function.
     init_veml6030();
+
+    ICM42670_start_with_default_values ();
+
+
+    float ax, ay, az;
+    float gx, gy, gz;
+    float t;    
+
+
+    ICM42670_read_sensor_data(
+        &ax, &ay, &az,
+        &gx, &gy, &gz,
+        &t
+    );
    
     for(;;){
         
@@ -157,21 +213,31 @@ int main() {
 
     stdio_init_all();
 
+    init_ICM42670 ();
+    init_hat_sdk();
+    init_display();
+    write_text("Hello World!");
+
+
+
+    sleep_ms(5000);
+    //stop_display();
+
     // Uncomment this lines if you want to wait till the serial monitor is connected
     /*while (!stdio_usb_connected()){
         sleep_ms(10);
     }*/ 
     
-    init_hat_sdk();
+    //init_hat_sdk();
     sleep_ms(300); //Wait some time so initialization of USB and hat is done.
 
     // Exercise 1: Initialize the button and the led and define an register the corresponding interrupton.
     //             Interruption handler is defined up as btn_fxn
     // Tehtävä 1:  Alusta painike ja LEd ja rekisteröi vastaava keskeytys.
     //             Keskeytyskäsittelijä on määritelty yläpuolella nimellä btn_fxn
-    init_button1();
-    init_red_led();
-    gpio_set_irq_enabled_with_callback(BUTTON1, GPIO_IRQ_EDGE_FALL, true, btn_fxn);
+    //init_button1();
+    //init_red_led();
+    //gpio_set_irq_enabled_with_callback(BUTTON1, GPIO_IRQ_EDGE_FALL, true, btn_fxn);
     
     TaskHandle_t hSensorTask, hPrintTask, hUSB = NULL;
 
@@ -217,4 +283,3 @@ int main() {
     // Never reach this line.
     return 0;
 }
-
